@@ -18,3 +18,8 @@ class DataBaseManager:
 		result = await self.session.execute(select(UsersBase).where(UsersBase.username == username))
 		curr = result.scalars().first()
 		return curr
+
+	async def login(self, username, password):
+		result = await self.session.execute(select(UsersBase).where((UsersBase.username == username) and (UsersBase.password == password)))
+		curr = result.scalars().first()
+		return curr

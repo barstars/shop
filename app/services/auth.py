@@ -1,4 +1,4 @@
-from app.models.users import UserDatas
+from app.models.users import UserDatas, UserLogin
 from app.db.crud.user import DataBaseManager
 
 from typing import AsyncGenerator
@@ -13,6 +13,13 @@ class Auth:
 			return False
 		else:
 			return await self.dbm.create_user(data=data)
+
+	async def login(self, data: UserLogin):
+		login = await self.dbm.login(**(data.dict()))
+		if login:
+			return login.id
+		else:
+			return None
 			
 	async def is_registered_by_name(self, username) -> bool:
 		result = await self.dbm.get_by_username(username)

@@ -24,15 +24,19 @@ class UsersBase(Base):
 
 
 # pydantic.BaseModel MODELS
-class UserLogin(BaseModel):
+class UserRegister(BaseModel):
 	password: str
 	email: str
 	username: str
 
-class UserDatas(UserLogin):
+class UserDatas(UserRegister):
     ip_address: str
     useragent: str
     setting: Optional[dict] = None
     is_admin: Optional[bool] = None
+
+class UserLogin(BaseModel):
+    password: str
+    username: str
 
 #########################
