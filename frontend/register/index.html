@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+	<p>
+    	Username:<br>
+    	<input id="username" type="text"></input>
+    </p>
+    <p>
+    	Email:<br>
+    	<input id="email" type="text"></input>
+    </p>
+	<p>
+    	Password:<br>
+    	<input id="password" type="text"></input>
+    </p>
+    <p>
+    	Repassword:<br>
+    	<input id="repassword" oninput="repassword_check()" type="text"></input>
+    </p>
+    <button onclick="register()">Get url</button>
+
+    <div id="result"></div>
+
+    <script src="/static/register/js/connect.js"></script>
+    <script src="/static/register/js/check.js"></script>
+</body>
+</html>

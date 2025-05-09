@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Request, Cookie, Response
+from fastapi.responses import FileResponse
 
 from app.models.users import UserLogin, UserDatas
 from app.db.session import get_db
@@ -11,22 +12,15 @@ router = APIRouter(
 	prefix="/login",
 	tags=["login"])
 
-@router.get("/")
-async def login_html():
-	return {"test": "OK"}
-
 @router.post("/reg")
-async def register(uLogin: UserLogin,
+async def register_post(uLogin: UserLogin,
 					request: Request,
 					response: Response,
 					db: AsyncGenerator = Depends(get_db)
-					):#cookies_data: str = Cookie(default="{}")
-	# cookies = json.loads(cookies_data)
+					):
 
     ip_address = request.client.host
     useragent = request.headers.get("user-agent")
-
-    # setting = cookies.get("setting")
 
     data = UserDatas(
         **uLogin.dict(),
@@ -36,8 +30,13 @@ async def register(uLogin: UserLogin,
 
     auth = Auth(db)
     id_ = await auth.register(data=data)
+    cookies_data = {"id":str(id_)}
     if id_:
-    	response.set_cookie(key="cookies_data", value=id_)
+    	response.set_cookie(key="cookies_data", value=json.dumps(cookies_data))
     	return {"id": id_}
     else:
     	return {"data": "username уже существует"}
+
+@router.get("/reg")
+async def register_get():
+    return FileResponse("frontend/register/index.html")
