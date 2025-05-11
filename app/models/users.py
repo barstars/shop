@@ -29,6 +29,9 @@ class UserRegister(BaseModel):
 	email: str
 	username: str
 
+class UserAdminRegister(UserRegister):
+    is_admin: Optional[bool] = None
+
 class UserDatas(UserRegister):
     ip_address: str
     useragent: str
@@ -40,3 +43,5 @@ class UserLogin(BaseModel):
     username: str
 
 #########################
+
+# INSERT INTO users (id,ip_address,useragent,is_admin,password,email,username) VALUES (gen_random_uuid(),'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64)',TRUE,'hashed_password_here','newadmin@example.com','superadmin');

@@ -1,5 +1,8 @@
 from fastapi import FastAPI
-from app.api import login, home, get_static_files
+from fastapi.staticfiles import StaticFiles
+
+from app.api import home, admin
+from app.api.login import login, register
 
 from app.db.crud.start import action_all_table
 
@@ -17,5 +20,9 @@ async def shutdown_event():
 	print("OUT")
 
 app.include_router(login.router)
+app.include_router(register.router)
+
+app.include_router(admin.router)
+
 app.include_router(home.router)
-app.include_router(get_static_files.router)
+app.mount("/static", StaticFiles(directory="frontend"), name="static")

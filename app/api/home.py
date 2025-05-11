@@ -15,4 +15,10 @@ async def home(request: Request,
 						db: AsyncGenerator = Depends(get_db),
 						cookies_data: str = Cookie(default="{}")):
 	cookies = json.loads(cookies_data)
-	return cookies
+	if cookies:
+		id_ = cookies.get("id")
+		auth = Auth(db)
+		user_data = await auth.auth(id_)
+		return user_data
+	else:
+		return {"data":"Вы ещё не зарегистрировались"}

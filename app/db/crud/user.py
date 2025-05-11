@@ -12,7 +12,7 @@ class DataBaseManager:
 		data = UsersBase(**data.dict())
 		self.session.add(data)
 		await self.session.commit()
-		return data.id
+		return data
 
 	async def get_by_username(self, username):
 		result = await self.session.execute(select(UsersBase).where(UsersBase.username == username))
@@ -23,3 +23,16 @@ class DataBaseManager:
 		result = await self.session.execute(select(UsersBase).where((UsersBase.username == username) and (UsersBase.password == password)))
 		curr = result.scalars().first()
 		return curr
+
+	async def get_by_id(self, id_):
+		result = await self.session.execute(select(UsersBase).where(UsersBase.id == id_))
+		curr = result.scalars().first()
+		return curr
+
+	async def is_admin(self, id_):
+		result = await self.session.execute(select(UsersBase).where((UsersBase.id == id_) and (UsersBase.is_admin == True)))
+		curr = result.scalars().first()
+		if curr:
+			return True
+		else:
+			return False
